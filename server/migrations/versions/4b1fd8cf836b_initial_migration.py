@@ -1,8 +1,8 @@
-"""create tables games, reviews, users
+"""Initial migration
 
-Revision ID: 57881204f4e6
+Revision ID: 4b1fd8cf836b
 Revises: 
-Create Date: 2022-09-12 11:38:12.948877
+Create Date: 2025-09-18 19:51:37.794795
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '57881204f4e6'
+revision = '4b1fd8cf836b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,25 +23,18 @@ def upgrade():
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('genre', sa.String(), nullable=True),
     sa.Column('platform', sa.String(), nullable=True),
-    sa.Column('price', sa.Integer(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('title')
+    sa.Column('price', sa.Float(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.Column('username', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('score', sa.Integer(), nullable=True),
     sa.Column('comment', sa.String(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
-    sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.Column('game_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['game_id'], ['games.id'], ),
